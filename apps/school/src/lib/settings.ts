@@ -30,16 +30,24 @@ const DEFAULTS: Record<string, string> = {
 };
 
 export async function getSetting(key: string): Promise<string> {
-  const row = await db.setting.findUnique({ where: { key } });
-  return row?.value ?? DEFAULTS[key] ?? "";
+  try {
+    const row = await db.setting.findUnique({ where: { key } });
+    return row?.value ?? DEFAULTS[key] ?? "";
+  } catch {
+    return DEFAULTS[key] ?? "";
+  }
 }
 
 export async function getSettings(keys?: string[]): Promise<Record<string, string>> {
-  const rows = await db.setting.findMany({
-    where: keys ? { key: { in: keys } } : undefined,
-  });
   const map: Record<string, string> = { ...DEFAULTS };
-  for (const row of rows) map[row.key] = row.value;
+  try {
+    const rows = await db.setting.findMany({
+      where: keys ? { key: { in: keys } } : undefined,
+    });
+    for (const row of rows) map[row.key] = row.value;
+  } catch {
+    // Build / offline DB — serve brand defaults so prerender never crashes.
+  }
   return map;
 }
 

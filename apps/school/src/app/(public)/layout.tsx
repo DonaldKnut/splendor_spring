@@ -7,6 +7,9 @@ import {
 import { getSettings } from "@/lib/settings";
 import { SCHOOL_CONTACT } from "@/lib/school-contact";
 
+/** Avoid build-time DB prerender on Vercel when DATABASE_URL is unreachable. */
+export const dynamic = "force-dynamic";
+
 export default async function PublicLayout({
   children,
 }: {

@@ -3,6 +3,9 @@ import { DM_Sans, Figtree } from "next/font/google";
 import "./globals.css";
 import { getSettings } from "@/lib/settings";
 
+/** Keep root metadata/layout from requiring a live DB during `next build`. */
+export const dynamic = "force-dynamic";
+
 /** Clean geometric headers — sharp, premium, easy to read at every size. */
 const display = Figtree({
   subsets: ["latin"],

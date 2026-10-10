@@ -9,11 +9,16 @@ import { COMING_SOON_COPY, SCHOOL_GALLERY } from "@/lib/media-gallery";
 
 export default async function HomePage() {
   const settings = await getSettings();
-  const announcements = await db.announcement.findMany({
-    where: { status: "PUBLISHED" },
-    orderBy: { publishedAt: "desc" },
-    take: 5,
-  });
+  let announcements: Awaited<ReturnType<typeof db.announcement.findMany>> = [];
+  try {
+    announcements = await db.announcement.findMany({
+      where: { status: "PUBLISHED" },
+      orderBy: { publishedAt: "desc" },
+      take: 5,
+    });
+  } catch {
+    announcements = [];
+  }
 
   const motto = settings.school_tagline || settings.school_motto || "Nurturing to Greater Heights";
   const comingSoon = settings.coming_soon || COMING_SOON_COPY;

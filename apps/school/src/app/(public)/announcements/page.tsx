@@ -34,13 +34,16 @@ const UPCOMING_DATES = [
 ];
 
 export default async function AnnouncementsPage() {
-  const [items, settings] = await Promise.all([
-    db.announcement.findMany({
+  const settings = await getSettings(["coming_soon", "school_name"]);
+  let items: Awaited<ReturnType<typeof db.announcement.findMany>> = [];
+  try {
+    items = await db.announcement.findMany({
       where: { status: "PUBLISHED" },
       orderBy: [{ featured: "desc" }, { publishedAt: "desc" }],
-    }),
-    getSettings(["coming_soon", "school_name"]),
-  ]);
+    });
+  } catch {
+    items = [];
+  }
 
   return (
     <>

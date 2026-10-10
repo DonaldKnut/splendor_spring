@@ -142,9 +142,14 @@ export default async function AboutPage() {
     "values",
     "educational_approach",
   ]);
-  const page = await db.contentPage.findFirst({
-    where: { slug: "about", status: "PUBLISHED" },
-  });
+  let page: Awaited<ReturnType<typeof db.contentPage.findFirst>> = null;
+  try {
+    page = await db.contentPage.findFirst({
+      where: { slug: "about", status: "PUBLISHED" },
+    });
+  } catch {
+    page = null;
+  }
 
   const motto = settings.school_motto || "Nurturing to Greater Heights";
   const proprietor = settings.school_proprietor || "Mrs. Opeyemi Elebiju";
