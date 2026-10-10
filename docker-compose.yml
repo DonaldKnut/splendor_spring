@@ -1,0 +1,22 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: splendor-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: splendor
+      POSTGRES_PASSWORD: splendor_dev_password
+      POSTGRES_DB: postgres
+    volumes:
+      - splendor_pg_data:/var/lib/postgresql/data
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U splendor"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  splendor_pg_data:

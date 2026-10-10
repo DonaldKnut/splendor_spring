@@ -1,0 +1,31 @@
+{
+  "name": "splendor-project",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Splendor Spring School Platform + NGO Platform",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:school": "npm run dev --workspace=@splendor/school",
+    "dev:ngo": "npm run dev --workspace=@splendor/ngo",
+    "build:school": "npm run build --workspace=@splendor/school",
+    "build:ngo": "npm run build --workspace=@splendor/ngo",
+    "build": "npm run build:school && npm run build:ngo",
+    "test:school": "npm run test --workspace=@splendor/school",
+    "test:ngo": "npm run test --workspace=@splendor/ngo",
+    "test": "npm run test:school && npm run test:ngo",
+    "db:school:generate": "npm run db:generate --workspace=@splendor/school",
+    "db:ngo:generate": "npm run db:generate --workspace=@splendor/ngo",
+    "db:school:migrate": "npm run db:migrate --workspace=@splendor/school",
+    "db:ngo:migrate": "npm run db:migrate --workspace=@splendor/ngo",
+    "db:school:seed": "npm run db:seed --workspace=@splendor/school",
+    "db:ngo:seed": "npm run db:seed --workspace=@splendor/ngo",
+    "db:setup": "powershell -ExecutionPolicy Bypass -File ./scripts/setup-postgres.ps1",
+    "smoke": "node ./scripts/e2e-smoke.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
