@@ -4,10 +4,9 @@ import {
   AdminShell,
   AdminPanel,
   AdminTable,
-  AdminEmpty,
   StatusPill,
 } from "@/components/admin-chrome";
-import { CreateParentForm } from "@/components/forms/parent-form";
+import { ParentsRegistryActions } from "@/components/parents-registry-actions";
 import { ParentRowActions } from "@/components/forms/parent-actions";
 
 export default async function ParentsAdminPage() {
@@ -26,6 +25,11 @@ export default async function ParentsAdminPage() {
     }),
   ]);
 
+  const studentOptions = students.map((s) => ({
+    id: s.id,
+    label: `${s.lastName}, ${s.firstName} (${s.admissionNumber})`,
+  }));
+
   return (
     <AdminShell
       title="Parents & guardians"
@@ -36,19 +40,36 @@ export default async function ParentsAdminPage() {
         </svg>
       }
     >
-      <AdminPanel
-        title="Create parent"
-        description="Temporary password is emailed when mail is configured."
+      <div
+        className="relative overflow-hidden rounded-3xl border border-[var(--c-border)] p-6 sm:p-8"
+        style={{
+          background:
+            "linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(248,250,252,0.95) 100%)",
+        }}
       >
-        <CreateParentForm
-          students={students.map((s) => ({
-            id: s.id,
-            label: `${s.lastName}, ${s.firstName} (${s.admissionNumber})`,
-          }))}
-        />
-      </AdminPanel>
+        <div className="max-w-xl">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[var(--c-emerald)]/20 bg-[var(--c-emerald-pale)] px-3 py-1 text-xs font-semibold text-[var(--c-emerald)]">
+            <span className="h-1.5 w-1.5 rounded-full bg-[var(--c-emerald)]" />
+            Family access
+          </div>
+          <h2 className="mt-3 font-display text-2xl font-bold tracking-tight text-[var(--c-text)] sm:text-3xl">
+            Manage parent portal accounts
+          </h2>
+          <p className="mt-2 text-sm leading-relaxed text-[var(--c-text-3)]">
+            Create guardian logins, link pupils for gradebook access, and keep family contacts in
+            one place.
+          </p>
+          <div className="mt-5">
+            <ParentsRegistryActions students={studentOptions} />
+          </div>
+        </div>
+      </div>
 
-      <AdminPanel title="Directory" description={`${parents.length} parent accounts`}>
+      <AdminPanel
+        title="Directory"
+        description={`${parents.length} parent account${parents.length === 1 ? "" : "s"}`}
+        actions={<ParentsRegistryActions students={studentOptions} variant="panel" />}
+      >
         {parents.length ? (
           <AdminTable headers={["Name", "Email", "Phone", "Students", "Status", ""]}>
             {parents.map((p) => (
@@ -73,10 +94,13 @@ export default async function ParentsAdminPage() {
             ))}
           </AdminTable>
         ) : (
-          <AdminEmpty
-            title="No parents yet"
-            description="Create a parent account to start linking families."
-          />
+          <div className="flex flex-col items-center justify-center px-4 py-12 text-center">
+            <h3 className="font-display text-lg font-bold text-[var(--c-text)]">No parents yet</h3>
+            <p className="mt-1.5 max-w-sm text-sm text-[var(--c-text-3)]">
+              Create a parent account to start linking families.
+            </p>
+            <ParentsRegistryActions students={studentOptions} variant="empty" />
+          </div>
         )}
       </AdminPanel>
     </AdminShell>

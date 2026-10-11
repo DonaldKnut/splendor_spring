@@ -12,6 +12,7 @@ export function PremiumModal({
   children,
   footer,
   accent = "var(--c-sky)",
+  size = "md",
 }: {
   open: boolean;
   onClose: () => void;
@@ -20,6 +21,7 @@ export function PremiumModal({
   children: ReactNode;
   footer?: ReactNode;
   accent?: string;
+  size?: "md" | "lg";
 }) {
   const [mounted, setMounted] = useState(false);
   const titleId = useId();
@@ -65,7 +67,11 @@ export function PremiumModal({
             role="dialog"
             aria-modal="true"
             aria-labelledby={titleId}
-            className="relative z-10 flex max-h-[min(92svh,38rem)] w-full max-w-md flex-col overflow-hidden rounded-[1.35rem] border border-white/10 bg-white shadow-[0_30px_80px_rgba(7,11,20,0.45)] min-[360px]:rounded-[1.75rem]"
+            className={
+              size === "lg"
+                ? "relative z-10 flex max-h-[min(92svh,44rem)] w-full max-w-2xl flex-col overflow-hidden rounded-[1.35rem] border border-white/10 bg-white shadow-[0_30px_80px_rgba(7,11,20,0.45)] min-[360px]:rounded-[1.75rem]"
+                : "relative z-10 flex max-h-[min(92svh,38rem)] w-full max-w-md flex-col overflow-hidden rounded-[1.35rem] border border-white/10 bg-white shadow-[0_30px_80px_rgba(7,11,20,0.45)] min-[360px]:rounded-[1.75rem]"
+            }
             initial={{ opacity: 0, y: 36, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 24, scale: 0.97 }}

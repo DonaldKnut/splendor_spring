@@ -10,10 +10,9 @@ import {
   Pagination,
   StatusPill,
 } from "@/components/admin-chrome";
-import { CreateStudentForm, CsvImportForm } from "@/components/forms/student-forms";
+import { StudentsRegistryActions } from "@/components/students-registry-actions";
 import {
   StudentsHeroIllustration,
-  CsvImportIllustration,
   EmptyStudentsIllustration,
 } from "@/components/illustrations";
 
@@ -24,13 +23,12 @@ export const metadata = {
 export default async function StudentsAdminPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string; page?: string; classId?: string; tab?: string }>;
+  searchParams: Promise<{ q?: string; page?: string; classId?: string }>;
 }) {
   await guardPage(() => requirePermission("view_students"));
   const sp = await searchParams;
   const q = sp.q?.trim() ?? "";
   const classId = sp.classId?.trim() ?? "";
-  const activeTab = sp.tab ?? "create";
   const page = Math.max(1, Number(sp.page ?? 1));
   const take = 20;
 
@@ -95,6 +93,8 @@ export default async function StudentsAdminPage({
 
   const pages = Math.max(1, Math.ceil(totalFiltered / take));
   const baseHref = `/admin/students?q=${encodeURIComponent(q)}${classId ? `&classId=${classId}` : ""}`;
+  const classOptions = classes.map((c) => ({ id: c.id, name: c.name }));
+  const parentOptions = parents.map((p) => ({ id: p.id, name: p.user.name }));
 
   return (
     <AdminShell
@@ -125,20 +125,7 @@ export default async function StudentsAdminPage({
             <p className="mt-2 text-sm leading-relaxed text-[var(--c-text-3)]">
               Create pupil credentials, assign classroom cohorts, connect linked parents for gradebook access, and oversee academic progression.
             </p>
-            <div className="mt-5 flex flex-wrap items-center gap-3">
-              <a
-                href="#create-student-section"
-                className="btn btn-primary btn-sm rounded-xl"
-              >
-                + Register single student
-              </a>
-              <a
-                href="#csv-import-section"
-                className="btn btn-ghost btn-sm rounded-xl border-[var(--c-border)]"
-              >
-                Upload CSV roster
-              </a>
-            </div>
+            <StudentsRegistryActions classes={classOptions} parents={parentOptions} />
           </div>
           <div className="shrink-0 drop-shadow-sm">
             <StudentsHeroIllustration className="h-36 w-48 sm:h-44 sm:w-56" />
@@ -281,34 +268,7 @@ export default async function StudentsAdminPage({
         </div>
       </div>
 
-      {/* ── 4. Forms: Create Student & Bulk CSV Import ───────────────────────────── */}
-      <div className="grid gap-6 xl:grid-cols-[1.25fr_0.75fr]">
-        <div id="create-student-section">
-          <AdminPanel
-            title="Create student"
-            description="Generates a temporary password and emails it when Resend is configured."
-          >
-            <CreateStudentForm
-              classes={classes.map((c) => ({ id: c.id, name: c.name }))}
-              parents={parents.map((p) => ({ id: p.id, name: p.user.name }))}
-            />
-          </AdminPanel>
-        </div>
-
-        <div id="csv-import-section">
-          <AdminPanel
-            title="Bulk CSV import"
-            description="admissionNumber, firstName, lastName, email"
-          >
-            <div className="mb-4 flex items-center justify-center rounded-2xl bg-[var(--c-surface-2)] p-4 border border-dashed border-[var(--c-border)]">
-              <CsvImportIllustration className="h-28 w-28" />
-            </div>
-            <CsvImportForm />
-          </AdminPanel>
-        </div>
-      </div>
-
-      {/* ── 5. Directory & Pupil Roster ─────────────────────────────────────────── */}
+      {/* ── 4. Directory & Pupil Roster ─────────────────────────────────────────── */}
       <AdminPanel
         title="Directory"
         description={`${totalFiltered} student${totalFiltered === 1 ? "" : "s"} found`}
@@ -403,18 +363,21 @@ export default async function StudentsAdminPage({
             <p className="mt-1.5 max-w-sm text-sm text-[var(--c-text-3)]">
               {q || classId
                 ? "No pupil matches your filter criteria. Try resetting your search terms."
-                : "Your student roster is currently empty. Use the registration form above to create pupil credentials or import a CSV file."}
+                : "Your student roster is currently empty. Register a pupil or import a CSV roster to get started."}
             </p>
-            <div className="mt-5 flex gap-3">
-              <a href="#create-student-section" className="btn btn-primary btn-sm rounded-xl">
-                + Add student
-              </a>
-              {q || classId ? (
+            {q || classId ? (
+              <div className="mt-5">
                 <Link href="/admin/students" className="btn btn-ghost btn-sm rounded-xl">
                   Clear search
                 </Link>
-              ) : null}
-            </div>
+              </div>
+            ) : (
+              <StudentsRegistryActions
+                classes={classOptions}
+                parents={parentOptions}
+                variant="empty"
+              />
+            )}
           </div>
         )}
       </AdminPanel>
