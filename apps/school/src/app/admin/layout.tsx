@@ -18,14 +18,16 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     redirect("/portal");
   }
 
+  const isTeacher = session.user.role === "TEACHER";
+
   return (
     <SessionProvider>
-      <AdminTourProvider role={session.user.role}>
-        <AdminScrollLock />
+      {isTeacher ? (
         <div
           className="admin-shell flex h-svh max-h-svh flex-col overflow-hidden md:flex-row"
           style={{ background: "var(--c-surface-2)" }}
         >
+          <AdminScrollLock />
           <AdminNav
             role={session.user.role}
             permissions={session.user.permissions as Permission[]}
@@ -37,9 +39,29 @@ export default async function AdminLayout({ children }: { children: React.ReactN
               {children}
             </div>
           </div>
-          <TourLaunchButton variant="fab" />
         </div>
-      </AdminTourProvider>
+      ) : (
+        <AdminTourProvider role={session.user.role}>
+          <AdminScrollLock />
+          <div
+            className="admin-shell flex h-svh max-h-svh flex-col overflow-hidden md:flex-row"
+            style={{ background: "var(--c-surface-2)" }}
+          >
+            <AdminNav
+              role={session.user.role}
+              permissions={session.user.permissions as Permission[]}
+              name={session.user.name}
+              email={session.user.email ?? ""}
+            />
+            <div className="admin-main min-h-0 min-w-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-y-contain">
+              <div className="admin-main-inner mx-auto max-w-7xl px-2.5 py-4 min-[300px]:px-3 min-[360px]:px-4 sm:px-5 sm:py-6 md:px-8 md:py-8">
+                {children}
+              </div>
+            </div>
+            <TourLaunchButton variant="fab" />
+          </div>
+        </AdminTourProvider>
+      )}
     </SessionProvider>
   );
 }

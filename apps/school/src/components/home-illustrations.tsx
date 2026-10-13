@@ -1,32 +1,5 @@
 /** Decorative stage illustrations for the homepage programme strip. */
 
-export function IllusCreche({ className = "h-14 w-14" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 64 64" fill="none" aria-hidden>
-      <circle cx="32" cy="32" r="30" fill="currentColor" opacity="0.1" />
-      <path
-        d="M18 38c0-7.7 6.3-14 14-14s14 6.3 14 14"
-        stroke="currentColor"
-        strokeWidth="2.2"
-        strokeLinecap="round"
-      />
-      <circle cx="32" cy="22" r="6" fill="currentColor" opacity="0.9" />
-      <path
-        d="M22 44h20c1.1 0 2 .9 2 2v2H20v-2c0-1.1.9-2 2-2z"
-        fill="currentColor"
-        opacity="0.85"
-      />
-      <path
-        d="M26 30c2.5 3 9.5 3 12 0"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        opacity="0.55"
-      />
-    </svg>
-  );
-}
-
 export function IllusKindergarten({ className = "h-14 w-14" }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 64 64" fill="none" aria-hidden>

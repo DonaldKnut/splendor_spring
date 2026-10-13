@@ -9,8 +9,9 @@ export default async function PortalIndexPage() {
   switch (session.user.role) {
     case "HEAD_ADMIN":
     case "SUB_ADMIN":
-    case "TEACHER":
       redirect("/admin");
+    case "TEACHER":
+      redirect("/portal/teacher");
     case "STUDENT":
       redirect("/portal/student");
     case "PARENT":

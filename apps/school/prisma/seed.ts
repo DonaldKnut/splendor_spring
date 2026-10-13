@@ -4,10 +4,10 @@ import bcrypt from "bcryptjs";
 const db = new PrismaClient();
 
 const ABOUT_HTML = `
-<p><strong>Splendor Spring School Ltd</strong> is a low-cost, child-centred school located in Makoko, Lagos, established with a simple but powerful conviction: every child deserves the opportunity to learn, grow and reach their full potential, regardless of their family's financial circumstances.</p>
+<p><strong>Splendor Spring School Ltd</strong> is a child-centred school located in Makoko, Lagos, established with a simple but powerful conviction: every child deserves the opportunity to learn, grow and fulfil their God-given potential, regardless of their family's financial circumstances.</p>
 <p>The school was founded by <strong>Opeyemi Elebiju Josephine (née Ojaekomo)</strong> out of a deep passion for education and a desire to make quality learning accessible to children in underserved communities.</p>
-<p>Located at <strong>26, Aganmayo Lane, Apollo, Makoko, Lagos</strong>, Splendor Spring School serves children from nursery through primary education. While the school operates as a low-cost school, our vision goes beyond affordability. We seek to provide an environment where children are taught with care, encouraged to discover their abilities, and prepared to become confident and responsible members of society.</p>
-<p>For families who genuinely cannot afford school fees, particularly vulnerable children, education is provided free of charge. This reflects our belief that poverty should never be a barrier to a child's education.</p>
+<p>Located at <strong>26, Aganmayo Lane, Apollo, Makoko, Lagos</strong>, Splendor Spring School serves children from nursery through primary education. We provide <strong>affordable education</strong> to children from low-income families, and we offer <strong>free education</strong> to those whose parents genuinely cannot afford school fees. Our vision goes beyond the classroom — we are building a school where children who might otherwise be left behind can discover their abilities, develop confidence and prepare for a brighter future.</p>
+<p>This commitment reflects our belief that poverty should never be a barrier to a child's education.</p>
 <p>Today, Splendor Spring School serves <strong>over 200 children</strong> with a dedicated team of teachers committed to nurturing every child. We continue to grow with the long-term vision of building a sustainable institution that will serve generations of children in the community.</p>
 <p>Our motto, <em>“Nurturing to Greater Heights,”</em> captures what we desire for every child who passes through our doors.</p>
 `.trim();
@@ -26,17 +26,15 @@ const VALUES_HTML = `
   <li><strong>Excellence</strong> – We encourage every child to give their best and continually improve.</li>
   <li><strong>Integrity</strong> – We teach honesty, responsibility and good character.</li>
   <li><strong>Compassion</strong> – We care about others and recognise the dignity and needs of every child.</li>
-  <li><strong>Respect</strong> – We value every child, teacher, parent and member of our community.</li>
-  <li><strong>Faith</strong> – We encourage strong moral foundations and faith-based values.</li>
-  <li><strong>Creativity</strong> – We give children opportunities to think, explore, create and express themselves.</li>
+  <li><strong>Godly values and moral integrity</strong> – We encourage strong moral foundations that guide the choices children make.</li>
   <li><strong>Inclusiveness</strong> – We believe every child deserves an opportunity to learn and thrive.</li>
   <li><strong>Service</strong> – We encourage children to understand their responsibility towards their community and society.</li>
 </ul>
 `.trim();
 
 const APPROACH_HTML = `
-<p>We combine strong foundational academics with opportunities for creativity, practical learning and character development. We want our pupils not only to know what they have been taught, but also to understand how to apply their knowledge in everyday life.</p>
-<p>Our learning experiences include literacy and numeracy, phonics and early reading, mathematics and problem-solving, science and discovery, creative arts and cultural activities, English language and communication, social and moral development, practical and hands-on learning, STEAM-oriented activities, environmental awareness and sustainability, and teamwork and leadership development.</p>
+<p>We combine strong reading, writing and mathematics with practical learning, creative arts and character development. We want our pupils not only to know what they have been taught, but also to understand how to apply their knowledge in everyday life.</p>
+<p>Our learning experiences include literacy and numeracy, phonics and early reading, mathematics and problem-solving, science and discovery, creative arts and cultural activities, English language and communication, social and moral development, practical and hands-on learning, environmental awareness, and teamwork.</p>
 <p>We also expose our pupils to learning experiences beyond the traditional classroom through educational partnerships, exhibitions, cultural activities and practical projects.</p>
 `.trim();
 
@@ -81,7 +79,7 @@ async function main() {
       passwordHash,
       role: "HEAD_ADMIN",
       status: "ACTIVE",
-      mustChangePassword: true,
+      mustChangePassword: false,
       emailVerifiedAt: new Date(),
     },
     update: {
@@ -89,8 +87,8 @@ async function main() {
       passwordHash,
       role: "HEAD_ADMIN",
       status: "ACTIVE",
+      mustChangePassword: false,
       emailVerifiedAt: new Date(),
-      // Keep mustChangePassword as-is on update so a completed first login is not reset.
     },
   });
 
@@ -106,7 +104,7 @@ async function main() {
     vision: VISION_HTML,
     values: VALUES_HTML,
     school_motto: "Nurturing to Greater Heights",
-    school_proprietor: "Mrs. Opeyemi Elebiju",
+    school_proprietor: "Mrs. Opeyemi Elebiju Josephine",
     educational_approach: APPROACH_HTML,
     coming_soon: COMING_SOON,
     ca_max: "40",
@@ -163,20 +161,20 @@ async function main() {
       status: "PUBLISHED",
       publishedAt: new Date(),
       excerpt:
-        "A low-cost, child-centred school in Makoko, Lagos — nurturing every child to greater heights.",
+        "Affordable education for low-income families in Makoko — and free education for children whose parents genuinely cannot afford school fees.",
       content: ABOUT_HTML,
       metaTitle: "About | Splendor Spring School",
       metaDescription:
-        "Learn about Splendor Spring School Ltd in Makoko, Lagos — mission, vision, values, and our commitment to accessible education.",
+        "Learn about Splendor Spring School in Makoko, Lagos — affordable fees, free education for those who cannot pay, mission, vision and values.",
     },
     update: {
       title: "About Splendor Spring School",
       excerpt:
-        "A low-cost, child-centred school in Makoko, Lagos — nurturing every child to greater heights.",
+        "Affordable education for low-income families in Makoko — and free education for children whose parents genuinely cannot afford school fees.",
       content: ABOUT_HTML,
       metaTitle: "About | Splendor Spring School",
       metaDescription:
-        "Learn about Splendor Spring School Ltd in Makoko, Lagos — mission, vision, values, and our commitment to accessible education.",
+        "Learn about Splendor Spring School in Makoko, Lagos — affordable fees, free education for those who cannot pay, mission, vision and values.",
       status: "PUBLISHED",
       publishedAt: new Date(),
     },
@@ -203,9 +201,9 @@ async function main() {
       title: "Community Impact",
       slug: "community-impact",
       excerpt:
-        "Splendor Spring School continues its commitment to providing educational opportunities for children from vulnerable and low-income families.",
+        "Affordable education for struggling families — and free education for children whose parents genuinely cannot afford school fees.",
       content:
-        "<p>Splendor Spring School continues its commitment to providing educational opportunities for children from vulnerable and low-income families. Poverty should never be a barrier to a child's education.</p>",
+        "<p>At Splendor Spring School, we provide affordable education to children from low-income families and free education to those whose parents genuinely cannot afford school fees. Poverty should never be a barrier to a child's education — we are building a school where children who might otherwise be left behind can discover their abilities and prepare for a brighter future.</p>",
     },
     {
       title: "School Development",
@@ -247,31 +245,24 @@ async function main() {
   if (classCount === 0) {
     const classDefs = [
       {
-        name: "Reception / Crèche",
-        code: "REC",
-        level: "Early Years",
-        sortOrder: 1,
-        description: "Warm, age-appropriate care and early learning for our youngest children.",
-      },
-      {
         name: "Kindergarten",
         code: "KG",
         level: "Early Years",
-        sortOrder: 2,
-        description: "Play-based foundations that build curiosity, language and social skills.",
+        sortOrder: 1,
+        description: "Play, songs and early learning in a warm classroom.",
       },
       {
         name: "Nursery 1",
         code: "NUR1",
         level: "Nursery",
-        sortOrder: 3,
-        description: "Phonics, early literacy and numeracy in a nurturing classroom.",
+        sortOrder: 2,
+        description: "Phonics, early literacy and numeracy in a caring classroom.",
       },
       {
         name: "Nursery 2",
         code: "NUR2",
         level: "Nursery",
-        sortOrder: 4,
+        sortOrder: 3,
         description: "Stronger foundations preparing children for primary learning.",
       },
       {

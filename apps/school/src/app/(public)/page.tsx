@@ -5,7 +5,9 @@ import Link from "next/link";
 import { HomeProgrammeStages } from "@/components/home-programme-stages";
 import { HomePromises } from "@/components/home-promises";
 import { HomeGallery } from "@/components/home-gallery";
+import { HomeSocialImpact } from "@/components/home-social-impact";
 import { COMING_SOON_COPY, SCHOOL_GALLERY } from "@/lib/media-gallery";
+import { SOCIAL_IMPACT } from "@/lib/social-impact";
 
 export default async function HomePage() {
   const settings = await getSettings();
@@ -29,8 +31,7 @@ export default async function HomePage() {
       image: SCHOOL_GALLERY.hero[0].src,
       eyebrow: settings.school_name,
       title: motto,
-      subtitle:
-        "A low-cost, child-centred school in Makoko, Lagos — every child deserves the chance to learn, grow and thrive.",
+      subtitle: SOCIAL_IMPACT.heroLead,
       ctaLabel: "Discover our school",
       ctaHref: "/about",
       secondaryCtaLabel: "Contact us",
@@ -65,8 +66,7 @@ export default async function HomePage() {
       image: SCHOOL_GALLERY.hero[3].src,
       eyebrow: "Community impact",
       title: "Education without barriers",
-      subtitle:
-        "For families who genuinely cannot afford fees, particularly vulnerable children, education is provided free of charge.",
+      subtitle: SOCIAL_IMPACT.short,
       ctaLabel: "Get in touch",
       ctaHref: "/contact",
       secondaryCtaLabel: "Our story",
@@ -76,8 +76,8 @@ export default async function HomePage() {
 
   const stats = [
     { label: "Children served", value: "200+" },
-    { label: "Learning stages", value: "4" },
-    { label: "Focus", value: "Child-centred" },
+    { label: "Learning stages", value: "3" },
+    { label: "Access", value: "Free & affordable" },
     { label: "Community", value: "Makoko" },
   ];
 
@@ -115,6 +115,7 @@ export default async function HomePage() {
         </div>
       </section>
 
+      <HomeSocialImpact />
       <HomeProgrammeStages />
       <HomeGallery />
       <HomePromises />

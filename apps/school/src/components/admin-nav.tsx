@@ -271,6 +271,7 @@ function SidebarBody({
   sortedGroups,
   grouped,
   pathname,
+  role,
   roleLabel,
   name,
   email,
@@ -279,6 +280,7 @@ function SidebarBody({
   sortedGroups: string[];
   grouped: Record<string, NavItem[]>;
   pathname: string;
+  role: string;
   roleLabel: string;
   name: string;
   email?: string;
@@ -343,8 +345,8 @@ function SidebarBody({
             <p className="admin-nav-group">{group}</p>
             {grouped[group].map((item) => {
               const isActive =
-                item.href === "/admin"
-                  ? pathname === "/admin"
+                item.href === "/admin" || item.href === "/portal/teacher"
+                  ? pathname === item.href
                   : pathname.startsWith(item.href);
 
               return (
@@ -376,7 +378,7 @@ function SidebarBody({
         className="shrink-0 space-y-0.5 p-2 min-[300px]:p-3"
         style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
       >
-        <TourLaunchButton variant="nav" />
+        {role !== "TEACHER" ? <TourLaunchButton variant="nav" /> : null}
         <button
           type="button"
           onClick={() => signOut({ callbackUrl: "/login" })}
@@ -445,11 +447,26 @@ export function AdminNav({
     };
   }, [open]);
 
-  const visible = items.filter((item) => {
+  const navItems =
+    role === "TEACHER"
+      ? items.map((item) =>
+          item.href === "/admin"
+            ? {
+                ...item,
+                href: "/portal/teacher",
+                label: "Teaching desk",
+              }
+            : item,
+        )
+      : items;
+
+  const visible = navItems.filter((item) => {
     if (!item.permission) return true;
     if (role === "HEAD_ADMIN") return true;
     if (item.permission === "HEAD_ONLY") return false;
     if (role === "TEACHER") {
+      // Desk link has no permission gate; academic tools stay least-privilege.
+      if (!item.permission) return true;
       const teacherAllowed = new Set([
         "view_students",
         "enter_results",
@@ -487,6 +504,7 @@ export function AdminNav({
     sortedGroups,
     grouped,
     pathname,
+    role,
     roleLabel,
     name,
     email,

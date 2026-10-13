@@ -7,7 +7,7 @@ export const schoolAuthSlides: AuthPromoSlide[] = [
     badge: "Makoko, Lagos",
     title: "Nurturing to Greater Heights",
     subtitle:
-      "Splendor Spring School — accessible, affordable education where every child can learn, grow and thrive.",
+      "Affordable education for low-income families — and free education where parents genuinely cannot pay.",
   },
   {
     id: "classroom",
@@ -31,6 +31,6 @@ export const schoolAuthSlides: AuthPromoSlide[] = [
     badge: "Community",
     title: "Education without barriers",
     subtitle:
-      "A child-centred school committed to vulnerable and low-income families in our community.",
+      "A Makoko school where children who might otherwise be left behind can learn, grow and thrive.",
   },
 ];

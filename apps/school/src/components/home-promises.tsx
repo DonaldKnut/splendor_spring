@@ -24,12 +24,12 @@ const PROMISES: PromiseItem[] = [
   {
     id: "accessible",
     title: "Accessible excellence",
-    body: "Quality foundational education in a safe, nurturing environment — regardless of a family's financial circumstances.",
+    body: "Affordable education for struggling families — and free education for children whose parents genuinely cannot pay.",
     detail:
-      "Splendor Spring School was founded so poverty never blocks a child's education. We keep fees low, and for families who genuinely cannot pay — especially vulnerable children — learning is provided free of charge.",
+      "Splendor Spring School was founded so poverty never blocks a child's education. Low-income families pay affordable fees, and for those who genuinely cannot afford school fees — especially vulnerable children — education is provided free of charge.",
     highlights: [
-      "Low-cost, child-centred schooling in Makoko",
-      "Fee support for vulnerable families",
+      "Affordable fees for low-income families",
+      "Free education where parents cannot pay",
       "Safe classrooms with dedicated teachers",
       "Equal opportunity for every learner",
     ],
@@ -39,14 +39,14 @@ const PROMISES: PromiseItem[] = [
   {
     id: "learning",
     title: "Learning that lasts",
-    body: "Strong academics with creativity, practical learning, STEAM activities and character development beyond the classroom.",
+    body: "Strong reading, writing and mathematics, with practical learning, creative arts and character development.",
     detail:
-      "We combine literacy, numeracy, science and discovery with creative arts, practical projects and STEAM-oriented activities — so pupils understand how to apply knowledge in everyday life.",
+      "We combine literacy, numeracy, science and discovery with creative arts and practical projects — so pupils understand how to use what they learn in everyday life.",
     highlights: [
-      "Phonics, literacy and numeracy foundations",
-      "Science, discovery and STEAM activities",
-      "Creative arts and cultural experiences",
-      "Learning beyond the traditional classroom",
+      "Phonics, literacy and numeracy",
+      "Science and discovery",
+      "Creative arts and cultural activities",
+      "Character and good habits",
     ],
     accent: "var(--c-gold)",
     Icon: IllusSparkLearn,
@@ -60,7 +60,7 @@ const PROMISES: PromiseItem[] = [
     highlights: [
       "Over 200 children served with care",
       "Values: excellence, integrity, compassion, respect",
-      "Faith, creativity, inclusiveness and service",
+      "Godly values, inclusiveness and service",
       "Partnerships that open new horizons",
     ],
     accent: "var(--c-emerald)",

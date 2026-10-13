@@ -454,6 +454,23 @@ p, li, label, input, textarea, select, button {
   border-radius: 999px;
 }
 
+.about-hero-swiper .swiper-pagination {
+  bottom: 0.65rem !important;
+}
+
+.about-hero-swiper .swiper-pagination-bullet {
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 1;
+  width: 6px;
+  height: 6px;
+}
+
+.about-hero-swiper .swiper-pagination-bullet-active {
+  background: #fff;
+  width: 16px;
+  border-radius: 999px;
+}
+
 .admin-shell {
   width: 100%;
   max-width: 100vw;

@@ -39,6 +39,7 @@ export function SiteFooter({
 
   const explore = [
     { href: "/about", label: "About" },
+    { href: "/partnerships", label: "Partnerships" },
     { href: "/announcements", label: "News" },
     { href: "/contact", label: "Contact" },
   ];
@@ -216,7 +217,9 @@ export function SiteFooter({
           <p>
             © {year} {schoolName}. All rights reserved.
           </p>
-          <p>Proprietor · {SCHOOL_CONTACT.proprietor}</p>
+          <p>
+            {SCHOOL_CONTACT.proprietorTitle} · {SCHOOL_CONTACT.proprietor}
+          </p>
         </div>
       </div>
     </footer>

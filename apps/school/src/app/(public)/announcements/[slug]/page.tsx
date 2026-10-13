@@ -168,7 +168,8 @@ export default async function AnnouncementDetailPage({
                 Join a school that nurtures every child
               </p>
               <p className="mt-2 text-sm leading-relaxed text-white/55">
-                Admissions enquiries, partnerships and family visits are always welcome.
+                Affordable fees for struggling families — free education where parents cannot pay.
+                Admissions and family visits are always welcome.
               </p>
               <Link
                 href="/about"

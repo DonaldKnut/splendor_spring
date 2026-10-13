@@ -6,13 +6,18 @@ import { ContactIllustration } from "@/components/illustrations";
 
 export const metadata = {
   title: "Contact Us & Campus Location | Splendor Spring School",
-  description: "Reach Splendor Spring School in Makoko, Lagos. Telephone, WhatsApp enquiries, school visiting hours, and admission directions.",
+  description:
+    "Reach Splendor Spring School in Makoko, Lagos for admissions, fee support enquiries, WhatsApp, visiting hours, and campus directions.",
 };
 
 const FAQS = [
   {
-    q: "How do I enroll my child into Crèche, Nursery or Primary?",
-    a: "You can visit the school office on weekdays or submit an inquiry using the form below. Our admissions officer will schedule an assessment and provide the enrollment kit.",
+    q: "How do I enroll my child into Kindergarten, Nursery or Primary?",
+    a: "You can visit the school office on weekdays, message us on WhatsApp, or submit an enquiry using the form below. Our admissions team will guide you through the next steps.",
+  },
+  {
+    q: "What if my family cannot afford school fees?",
+    a: "Splendor provides affordable education for low-income families and free education for children whose parents genuinely cannot afford fees. Speak confidentially with the school office or message us on WhatsApp — we handle fee-support conversations with care and dignity.",
   },
   {
     q: "How can parents check student results online?",
@@ -129,7 +134,7 @@ export default async function ContactPage() {
                 Get in touch with us
               </h1>
               <p className="mt-4 max-w-xl text-base leading-relaxed text-white/70">
-                Have questions regarding admissions, tuition, pupil transfers, or curriculum? Our administrative team welcomes your message and campus visit.
+                Questions about admissions, affordable fees, free education support, pupil transfers, or curriculum? Our team welcomes your message and campus visit — every enquiry is handled with care.
               </p>
               <div className="mt-6 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
                 {wa ? (
@@ -160,6 +165,67 @@ export default async function ContactPage() {
         </div>
       </div>
 
+      {/* WhatsApp quick actions for parents */}
+      {wa ? (
+        <section className="border-b border-[var(--c-border)] bg-[var(--c-surface)] py-12 sm:py-14">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6">
+            <div className="mb-8 max-w-2xl">
+              <p className="section-label">Easier on WhatsApp</p>
+              <h2 className="mt-2 font-display text-2xl font-bold text-[var(--c-text)] sm:text-3xl">
+                Chat with us on WhatsApp
+              </h2>
+              <p className="mt-2 text-sm text-[var(--c-text-3)] sm:text-base">
+                Many parents prefer WhatsApp. Tap a topic below and we will open a message for you —
+                no long form required.
+              </p>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {[
+                {
+                  label: "Ask about admission",
+                  message:
+                    "Hello Splendor Spring School, I would like to enquire about admission for my child.",
+                },
+                {
+                  label: "Which classes are available?",
+                  message:
+                    "Hello Splendor Spring School, please tell me which classes are available (Kindergarten, Nursery, Primary).",
+                },
+                {
+                  label: "Enquire about school fees",
+                  message:
+                    "Hello Splendor Spring School, I would like to enquire about school fees and any fee support options.",
+                },
+                {
+                  label: "Arrange a visit",
+                  message:
+                    "Hello Splendor Spring School, I would like to arrange a visit to the school.",
+                },
+              ].map((item) => {
+                const href = buildWhatsAppUrl(toWhatsAppDigits(waNumber), item.message);
+                if (!href) return null;
+                return (
+                  <a
+                    key={item.label}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex flex-col justify-between rounded-2xl border border-[var(--c-border)] bg-[var(--c-surface-2)] p-4 transition hover:border-[var(--c-emerald)]/40 hover:bg-[var(--c-emerald-pale)]"
+                  >
+                    <span className="font-display text-sm font-bold text-[var(--c-text)]">
+                      {item.label}
+                    </span>
+                    <span className="mt-3 text-xs font-semibold text-[var(--c-emerald)]">
+                      Open WhatsApp →
+                    </span>
+                  </a>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      ) : null}
+
       {/* ── 2. Contact Details & Message Form Section ──────────────────── */}
       <section id="contact-form-section" className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
         <div className="grid gap-10 lg:grid-cols-12">
@@ -171,7 +237,8 @@ export default async function ContactPage() {
                 Reach our administration
               </h2>
               <p className="mt-2 text-sm text-[var(--c-text-3)]">
-                Our office is situated in Makoko, Lagos. We respond to all telephone, email, and WhatsApp communications promptly.
+                Our office is in Makoko, Lagos. Prefer WhatsApp? Use the options above. You can also
+                call, email or send the form.
               </p>
             </div>
 

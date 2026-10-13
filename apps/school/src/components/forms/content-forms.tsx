@@ -276,7 +276,7 @@ const SETTING_GROUPS: Array<{
       { key: "school_name", label: "School name" },
       { key: "school_tagline", label: "Tagline / motto" },
       { key: "school_motto", label: "Motto" },
-      { key: "school_proprietor", label: "Proprietor" },
+      { key: "school_proprietor", label: "Founder & Director" },
       { key: "school_address", label: "Address" },
       { key: "school_phone", label: "Phone(s)", hint: "Separate with / if more than one" },
       { key: "school_email", label: "Public email" },

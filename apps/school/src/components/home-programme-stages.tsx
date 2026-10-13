@@ -5,7 +5,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useId, useState, type ComponentType } from "react";
 import { createPortal } from "react-dom";
 import {
-  IllusCreche,
   IllusKindergarten,
   IllusNursery,
   IllusPrimary,
@@ -24,70 +23,54 @@ type Stage = {
 
 const STAGES: Stage[] = [
   {
-    id: "reception",
-    title: "Reception / Crèche",
-    body: "Warm, age-appropriate care and early learning for our youngest children.",
-    accent: "var(--c-sky)",
-    accentSoft: "var(--c-ice)",
-    Icon: IllusCreche,
-    highlights: [
-      "Gentle settling-in routines",
-      "Sensory play and early language",
-      "Safe, nurturing supervision",
-      "Family partnership from day one",
-    ],
-    detail:
-      "Our Reception / Crèche welcomes the youngest learners into a calm, caring space. Days are shaped around rest, play, songs and early discovery — so every child feels secure while building the first foundations of learning.",
-  },
-  {
     id: "kindergarten",
     title: "Kindergarten",
-    body: "Play-based foundations that build curiosity, language and social skills.",
+    body: "Play, songs and friendship — early learning in a warm classroom.",
     accent: "var(--c-gold)",
     accentSoft: "var(--c-gold-pale)",
     Icon: IllusKindergarten,
     highlights: [
-      "Play-led learning centres",
-      "Spoken language & storytelling",
-      "Sharing, turn-taking and kindness",
-      "Creative movement and song",
+      "Play and story time",
+      "Spoken language and songs",
+      "Sharing and kindness",
+      "Settling into school life",
     ],
     detail:
-      "Kindergarten grows curiosity through purposeful play. Children explore language, numbers, stories and friendship in a stimulating environment that prepares them for nursery with confidence and joy.",
+      "Kindergarten helps young children feel safe at school. Through play, stories, songs and simple routines, they build language, friendship and confidence before nursery.",
   },
   {
     id: "nursery",
     title: "Nursery",
-    body: "Phonics, early literacy and numeracy in a nurturing classroom environment.",
+    body: "Phonics, early reading and numbers in a caring classroom.",
     accent: "var(--c-emerald)",
     accentSoft: "var(--c-emerald-pale)",
     Icon: IllusNursery,
     highlights: [
       "Phonics and early reading",
-      "Number sense and problem-solving",
-      "Hands-on discovery activities",
-      "Character and social growth",
+      "Counting and number sense",
+      "Hands-on activities",
+      "Good habits and character",
     ],
     detail:
-      "Nursery strengthens literacy and numeracy with phonics, guided practice and practical activities. Children learn how to listen, express themselves and apply new skills — always with care at the centre.",
+      "Nursery strengthens reading and numbers with phonics and practical activities. Children learn to listen, speak clearly and use new skills — always with care at the centre.",
   },
   {
     id: "primary",
     title: "Primary School",
-    body: "Strong academics with creativity, character and practical learning at every stage.",
+    body: "Strong academics, creative arts and character for every pupil.",
     accent: "#5b7cfa",
     accentSoft: "rgba(91,124,250,0.12)",
     Icon: IllusPrimary,
     highlights: [
-      "Strong core academics",
-      "STEAM and creative arts",
-      "Leadership and teamwork",
-      "Values, faith and responsibility",
+      "English, Maths and Science",
+      "Creative arts and culture",
+      "Teamwork and leadership",
+      "Godly values and responsibility",
     ],
     detail:
-      "Primary education at Splendor Spring School combines rigorous foundational academics with creativity, practical projects and character formation — preparing pupils to reach greater heights in school and in life.",
+      "Primary education at Splendor Spring School builds strong foundations in core subjects, creative arts and character — preparing pupils for secondary school and for life.",
   },
-];
+]
 
 const container = {
   hidden: {},
@@ -284,7 +267,7 @@ export function HomeProgrammeStages() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-60px" }}
-          className="mt-10 grid gap-4 min-[480px]:grid-cols-2 sm:mt-12 sm:gap-5 lg:grid-cols-4"
+          className="mt-10 grid gap-4 min-[480px]:grid-cols-2 sm:mt-12 sm:gap-5 lg:grid-cols-3"
         >
           {STAGES.map((stage, i) => (
             <motion.button

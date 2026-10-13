@@ -15,7 +15,8 @@ const CLOUD = "https://res.cloudinary.com/ls40ecmc/image/upload";
 export const SCHOOL_BRAND = {
   logo: `${CLOUD}/v1791613389/logo_school.jpg`,
   proprietor: `${CLOUD}/v1791611598/miss_yemi.jpg`,
-  proprietorName: "Mrs. Opeyemi Elebiju",
+  proprietorName: "Mrs. Opeyemi Elebiju Josephine",
+  proprietorTitle: "Founder & Director, Splendor Spring School Ltd.",
 } as const;
 
 export const SCHOOL_GALLERY = {
@@ -91,6 +92,28 @@ export const SCHOOL_GALLERY = {
       id: "mega-3",
       src: `${CLOUD}/v1791628221/xtdfgchj.jpg`,
       alt: "Splendor Spring School pupils posing together",
+      caption: "Proud Splendor pupils",
+    },
+  ] satisfies GalleryImage[],
+
+  /** About page hero media panel. */
+  aboutHero: [
+    {
+      id: "about-hero-1",
+      src: `${CLOUD}/v1791730676/children_day.jpg`,
+      alt: "Splendor Spring School pupils celebrating Children's Day",
+      caption: "Children's Day celebration",
+    },
+    {
+      id: "about-hero-2",
+      src: `${CLOUD}/v1791730676/splendor.jpg`,
+      alt: "Splendor Spring School pupils on a school outing",
+      caption: "Joyful school life",
+    },
+    {
+      id: "about-hero-3",
+      src: `${CLOUD}/v1791730676/grbhazjxn.jpg`,
+      alt: "Splendor Spring School pupils posing together at a school event",
       caption: "Proud Splendor pupils",
     },
   ] satisfies GalleryImage[],

@@ -1,132 +1,91 @@
 import { getSettings } from "@/lib/settings";
 import { db } from "@/lib/db";
-import { SCHOOL_BRAND } from "@/lib/media-gallery";
+import { SCHOOL_BRAND, SCHOOL_GALLERY } from "@/lib/media-gallery";
+import { SOCIAL_IMPACT } from "@/lib/social-impact";
 import Link from "next/link";
-import { AboutMissionIllustration } from "@/components/illustrations";
+import { AboutHeroSlider } from "@/components/about-hero-slider";
 
 export const metadata = {
-  title: "About Us | Splendor Spring School",
-  description: "Learn about our mission, vision, values, early years foundation, and child-centred primary education in Makoko, Lagos.",
+  title: "About Our School | Splendor Spring School",
+  description:
+    "Learn about Splendor Spring School in Makoko, Lagos — our mission, classes, approach to learning, core values, and founder.",
 };
 
-const SECTIONS = [
-  {
-    stage: "Crèche / Daycare",
-    age: "3 months – 2 years",
-    title: "Reception & Early Nurturing",
-    body: "Gentle, hygienic, and stimulating infant care designed to build sensory development, emotional security, and social curiosity in a warm environment.",
-    icon: "👶",
-    accent: "var(--c-sky)",
-  },
+const CLASSES = [
   {
     stage: "Kindergarten",
-    age: "2 – 3 years",
-    title: "Discovery & Active Play",
-    body: "Play-based exploration that sparks oral vocabulary, fine motor coordination, imaginative storytelling, and joyful social interaction with peers.",
-    icon: "🎨",
+    age: "Ages 2 – 3",
+    title: "Play and early learning",
+    body: "Children learn through play, songs, stories and sharing with friends. We help them settle in, speak clearly and feel safe at school.",
     accent: "var(--c-gold)",
   },
   {
     stage: "Nursery 1 & 2",
-    age: "3 – 5 years",
-    title: "Foundational Literacy & Phonics",
-    body: "Systematic Jolly Phonics, early numeracy, pencil grip mastery, science curiosity, and moral instruction to foster confident school readiness.",
-    icon: "📖",
+    age: "Ages 3 – 5",
+    title: "Reading, writing and numbers",
+    body: "Phonics, early reading, counting and good classroom habits. Children grow ready for primary school with care and encouragement.",
     accent: "var(--c-emerald)",
   },
   {
-    stage: "Primary Basic 1 – 6",
-    age: "5 – 11 years",
-    title: "Academic Rigour & Character",
-    body: "Comprehensive curriculum blending mathematics, English, sciences, ICT, arts, civic studies, and leadership development for secondary school excellence.",
-    icon: "🎓",
-    accent: "#6366f1",
+    stage: "Primary 1 – 6",
+    age: "Ages 5 – 11",
+    title: "Strong academics and character",
+    body: "English, Mathematics, Basic Science, Social Studies, Civic Education, Creative Arts and moral instruction — preparing pupils for secondary school.",
+    accent: "var(--c-sky)",
   },
 ];
 
 const CORE_VALUES = [
   {
     name: "Excellence",
-    text: "We motivate every pupil to exceed standards and pursue mastery in both academics and practical skills.",
-    icon: "🏆",
-    color: "var(--c-sky)",
-    bg: "var(--c-ice)",
+    text: "We encourage every child to do their best and keep improving.",
   },
   {
     name: "Integrity",
-    text: "Honesty, moral uprightness, and truthfulness are woven into every daily interaction and classroom lesson.",
-    icon: "⚖️",
-    color: "var(--c-emerald)",
-    bg: "var(--c-emerald-pale)",
+    text: "We teach honesty, responsibility and good character every day.",
   },
   {
     name: "Compassion",
-    text: "We nurture empathetic hearts that respect others, celebrate uniqueness, and care for peers.",
-    icon: "❤️",
-    color: "#f43f5e",
-    bg: "#ffe4e6",
+    text: "We care for one another and recognise the dignity of every child.",
   },
   {
-    name: "Respect",
-    text: "Honouring teachers, elders, classmates, and school properties with genuine dignity and mutual courtesy.",
-    icon: "🤝",
-    color: "#8b5cf6",
-    bg: "#f3e8ff",
-  },
-  {
-    name: "Faith & Morals",
-    text: "Anchored in sound Christian and universal moral tenets that anchor children's choices throughout life.",
-    icon: "🕊️",
-    color: "var(--c-gold)",
-    bg: "var(--c-gold-pale)",
-  },
-  {
-    name: "Creativity & STEAM",
-    text: "Encouraging curiosity, problem-solving, artistic expression, and independent analytical thinking.",
-    icon: "💡",
-    color: "#0284c7",
-    bg: "#e0f2fe",
+    name: "Godly values & moral integrity",
+    text: "We build strong moral foundations and faith that guide the choices children make.",
   },
   {
     name: "Inclusiveness",
-    text: "Every child, regardless of background, deserves equal warmth, high-tier instruction, and unwavering belief.",
-    icon: "🌟",
-    color: "#059669",
-    bg: "#d1fae5",
+    text: "Every child deserves a chance to learn and thrive, whatever their background.",
   },
   {
-    name: "Service & Impact",
-    text: "Teaching children early the joy of contributing positively to family, community, and the nation.",
-    icon: "🌱",
-    color: "#d97706",
-    bg: "#fef3c7",
+    name: "Service",
+    text: "We teach children to help their families, community and society.",
   },
 ];
 
-const METHODOLOGY_PILLARS = [
+const APPROACH = [
   {
-    title: "Jolly Phonics & Reading Fluency",
-    desc: "Multi-sensory synthetic phonics where children master sounds, blending, and vocabulary from nursery through primary.",
+    title: "Phonics and reading",
+    desc: "Children learn letter sounds, blending and reading step by step from nursery into primary.",
   },
   {
-    title: "Hands-on Mathematical Reasoning",
-    desc: "Concrete-pictorial-abstract problem solving, mental maths, and real-life arithmetic applications.",
+    title: "Mathematics that makes sense",
+    desc: "Counting, problem-solving and everyday number work using clear, practical methods.",
   },
   {
-    title: "Digital Literacy & Basic Computing",
-    desc: "Familiarising pupils with computer fundamentals, typing, and digital tools for 21st-century readiness.",
+    title: "Science and discovery",
+    desc: "Simple experiments, nature study, hygiene and care for our environment.",
   },
   {
-    title: "Science & Environmental Discovery",
-    desc: "Practical experiments, nature observation, hygiene awareness, and basic ecological stewardship.",
+    title: "Arts and culture",
+    desc: "Drawing, crafts, music, cultural activities and speaking in front of others with confidence.",
   },
   {
-    title: "Expressive Arts & Cultural Heritage",
-    desc: "Drawing, crafts, cultural appreciation, music, and public speaking that nurture self-confidence.",
+    title: "Character and values",
+    desc: "Lessons and daily practice that shape honesty, kindness, discipline and respect for others.",
   },
   {
-    title: "Continuous Assessment & Online Portals",
-    desc: "Transparent CA testing, exam analytics, and instant parent portal access to monitor term-by-term growth.",
+    title: "Progress parents can see",
+    desc: "Continuous assessment and the parent portal so families can follow each term’s growth.",
   },
 ];
 
@@ -152,47 +111,12 @@ export default async function AboutPage() {
   }
 
   const motto = settings.school_motto || "Nurturing to Greater Heights";
-  const proprietor = settings.school_proprietor || "Mrs. Opeyemi Elebiju";
-
-  const pillars = [
-    {
-      title: "Our Mission",
-      body: settings.mission || "To provide accessible, high-quality, and character-building nursery and primary education that nurtures every child's God-given talents to greater heights.",
-      accent: "var(--c-sky)",
-      accentBg: "var(--c-ice)",
-      icon: (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3.88-11.71L10 14.17l-1.88-1.88c-.39-.39-1.02-.39-1.41 0-.39.39-.39 1.02 0 1.41l2.59 2.59c.39.39 1.02.39 1.41 0L17.3 9.7c.39-.39.39-1.02 0-1.41-.39-.39-1.03-.39-1.42 0z" />
-        </svg>
-      ),
-    },
-    {
-      title: "Our Vision",
-      body: settings.vision || "To be a beacon of academic excellence and moral leadership in Lagos, raising disciplined, inquisitive, and compassionate future pioneers.",
-      accent: "var(--c-gold)",
-      accentBg: "var(--c-gold-pale)",
-      icon: (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
-        </svg>
-      ),
-    },
-    {
-      title: "Our Motto",
-      body: `<em>“${motto}”</em><p class="mt-2 text-sm text-[var(--c-text-3)]">A daily reminder that with diligent instruction and godly values, no child's background limits their altitude.</p>`,
-      accent: "var(--c-emerald)",
-      accentBg: "var(--c-emerald-pale)",
-      icon: (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-        </svg>
-      ),
-    },
-  ];
+  const founder = "Mrs. Opeyemi Elebiju Josephine";
+  const founderTitle = "Founder & Director, Splendor Spring School Ltd.";
 
   return (
     <>
-      {/* ── 1. Hero Section with Illustration ───────────────────────────── */}
+      {/* Hero */}
       <div
         className="relative overflow-hidden px-5 pb-16 pt-28 sm:px-6 sm:pb-24 sm:pt-32"
         style={{
@@ -207,35 +131,36 @@ export default async function AboutPage() {
           <div className="grid items-center gap-10 lg:grid-cols-12">
             <div className="text-center lg:col-span-7 lg:text-left">
               <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3.5 py-1 text-xs font-semibold uppercase tracking-widest text-[#d42a3a]">
-                ★ {motto}
+                {motto}
               </span>
               <h1 className="mt-4 font-display text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl">
-                About {settings.school_name}
+                About Our School
               </h1>
               <p className="mt-5 max-w-xl text-base leading-relaxed text-white/75 sm:text-lg">
-                A warm, child-centred citadel of learning in Makoko, Lagos. We provide holistic early childhood and primary education where every pupil is nurtured to excel.
+                A warm school in Makoko, Lagos, where children learn, grow and are cared for.{" "}
+                {SOCIAL_IMPACT.short}
               </p>
               <div className="mt-8 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
                 <Link href="/contact" className="btn btn-gold btn-md">
                   Enquire for admission →
                 </Link>
                 <Link
-                  href="#learning-stages"
+                  href="#our-classes"
                   className="btn rounded-xl border border-white/20 bg-white/10 text-white hover:bg-white/20"
                 >
-                  Explore curriculum
+                  See our classes
                 </Link>
               </div>
             </div>
 
             <div className="flex justify-center lg:col-span-5">
-              <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-md">
-                <AboutMissionIllustration className="h-60 w-full" />
-                <div className="mt-3 text-center">
+              <div className="relative w-full max-w-md overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-3 backdrop-blur-md sm:p-4">
+                <AboutHeroSlider slides={[...SCHOOL_GALLERY.aboutHero]} />
+                <div className="mt-3 px-1 text-center">
                   <p className="font-display text-sm font-semibold text-white">
-                    Rooted in Values · Reaching Greater Heights
+                    {motto}
                   </p>
-                  <p className="text-xs text-white/50">Comprehensive Early Years &amp; Basic Education</p>
+                  <p className="text-xs text-white/50">Kindergarten · Nursery · Primary</p>
                 </div>
               </div>
             </div>
@@ -243,17 +168,12 @@ export default async function AboutPage() {
         </div>
       </div>
 
-      {/* ── 2. School Story / Intro Section ─────────────────────────────── */}
-      <section className="mx-auto max-w-5xl px-6 py-16 sm:py-20">
+      {/* About Our School */}
+      <section id="about-our-school" className="mx-auto max-w-5xl px-6 py-16 sm:py-20">
         <div className="rounded-3xl border border-[var(--c-border)] bg-[var(--c-surface)] p-8 shadow-[var(--shadow-sm)] md:p-12">
-          <div className="flex items-center gap-3">
-            <span className="h-8 w-1.5 rounded-full bg-[var(--c-sky)]" />
-            <span className="text-xs font-bold uppercase tracking-wider text-[var(--c-sky)]">
-              Welcome from our heart
-            </span>
-          </div>
+          <p className="section-label">About Our School</p>
           <h2 className="mt-3 font-display text-2xl font-bold text-[var(--c-text)] sm:text-3xl">
-            Building strong foundations for tomorrow’s leaders
+            Who we are
           </h2>
           <div
             className="prose-school mt-6 text-sm leading-relaxed text-[var(--c-text-2)] sm:text-base"
@@ -261,176 +181,181 @@ export default async function AboutPage() {
               __html: page?.content || settings.school_intro,
             }}
           />
+          <div className="mt-8 rounded-2xl border border-[var(--c-border)] bg-[var(--c-surface-2)] p-5 sm:p-6">
+            <p className="text-[0.65rem] font-bold uppercase tracking-[0.16em] text-[var(--c-crimson,#b91c2c)]">
+              {SOCIAL_IMPACT.eyebrow}
+            </p>
+            <h3 className="mt-2 font-display text-xl font-bold text-[var(--c-text)] sm:text-2xl">
+              {SOCIAL_IMPACT.title}
+            </h3>
+            <div className="mt-4 space-y-3 text-sm leading-relaxed text-[var(--c-text-2)] sm:text-base">
+              {SOCIAL_IMPACT.paragraphs.map((p) => (
+                <p key={p.slice(0, 24)}>{p}</p>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* ── 3. Pillars: Mission, Vision, Motto ──────────────────────────── */}
-      <section className="py-16 sm:py-20" style={{ background: "var(--c-surface-2)" }}>
+      {/* Mission and Vision */}
+      <section
+        id="mission-vision"
+        className="py-16 sm:py-20"
+        style={{ background: "var(--c-surface-2)" }}
+      >
         <div className="mx-auto max-w-6xl px-6">
-          <div className="mb-12 text-center">
-            <p className="section-label">Our Guiding Light</p>
+          <div className="mb-10 text-center">
+            <p className="section-label">What guides us</p>
             <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-[var(--c-text)] sm:text-4xl">
-              Mission, Vision &amp; Motto
+              Our Mission and Vision
             </h2>
             <div className="section-divider mx-auto" />
           </div>
 
-          <div className="grid gap-6 md:grid-cols-3">
-            {pillars.map((item) => (
+          <div className="grid gap-6 md:grid-cols-2">
+            <div className="rounded-3xl border border-[var(--c-border)] bg-[var(--c-surface)] p-8 shadow-[var(--shadow-xs)]">
+              <h3 className="font-display text-2xl font-bold text-[var(--c-sky)]">Our Mission</h3>
               <div
-                key={item.title}
-                className="group relative overflow-hidden rounded-3xl border border-[var(--c-border)] bg-[var(--c-surface)] p-8 shadow-[var(--shadow-xs)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[var(--shadow-xl)]"
-              >
-                <div
-                  className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl"
-                  style={{ background: item.accentBg, color: item.accent }}
-                >
-                  {item.icon}
-                </div>
-                <h3 className="font-display text-2xl font-bold" style={{ color: item.accent }}>
-                  {item.title}
-                </h3>
-                <div
-                  className="mt-4 text-sm leading-relaxed text-[var(--c-text-2)]"
-                  dangerouslySetInnerHTML={{ __html: item.body }}
-                />
-                <div
-                  className="absolute bottom-0 left-0 h-1 w-0 rounded-full transition-all duration-500 group-hover:w-full"
-                  style={{ background: item.accent }}
-                />
-              </div>
-            ))}
+                className="mt-4 text-sm leading-relaxed text-[var(--c-text-2)] sm:text-base"
+                dangerouslySetInnerHTML={{
+                  __html:
+                    settings.mission ||
+                    "To provide accessible, affordable and quality education — including free education for children whose parents genuinely cannot afford fees — in a safe, caring environment where every child can grow academically, socially and morally.",
+                }}
+              />
+            </div>
+            <div className="rounded-3xl border border-[var(--c-border)] bg-[var(--c-surface)] p-8 shadow-[var(--shadow-xs)]">
+              <h3 className="font-display text-2xl font-bold text-[var(--c-gold)]">Our Vision</h3>
+              <div
+                className="mt-4 text-sm leading-relaxed text-[var(--c-text-2)] sm:text-base"
+                dangerouslySetInnerHTML={{
+                  __html:
+                    settings.vision ||
+                    "To raise confident, knowledgeable, compassionate and responsible children who can reach their full potential and serve their families and communities.",
+                }}
+              />
+            </div>
           </div>
+
+          <p className="mt-8 text-center font-display text-lg font-semibold text-[var(--c-text)] sm:text-xl">
+            Motto: <em>“{motto}”</em>
+          </p>
         </div>
       </section>
 
-      {/* ── 4. Learning Stages / Educational Pathway ────────────────────── */}
-      <section id="learning-stages" className="mx-auto max-w-6xl px-6 py-20">
-        <div className="mb-12 text-center">
-          <p className="section-label">Academic Pathway</p>
+      {/* Our Classes */}
+      <section id="our-classes" className="mx-auto max-w-6xl px-6 py-16 sm:py-20">
+        <div className="mb-10 text-center">
+          <p className="section-label">What we offer</p>
           <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-[var(--c-text)] sm:text-4xl">
-            Educational Stages at Splendor
+            Our Classes
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-sm text-[var(--c-text-3)]">
-            Thoughtfully tailored developmental cohorts from infant care through the culmination of primary schooling.
+            From Kindergarten through Primary — clear stages for every child&apos;s age and growth.
           </p>
           <div className="section-divider mx-auto" />
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {SECTIONS.map((s, idx) => (
+        <div className="grid gap-6 sm:grid-cols-3">
+          {CLASSES.map((s, idx) => (
             <div
               key={s.stage}
-              className="group relative flex flex-col justify-between rounded-3xl border border-[var(--c-border)] bg-[var(--c-surface)] p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+              className="flex flex-col rounded-3xl border border-[var(--c-border)] bg-[var(--c-surface)] p-6 shadow-sm"
             >
-              <div>
-                <div className="flex items-center justify-between">
-                  <span className="text-3xl">{s.icon}</span>
-                  <span className="rounded-full bg-[var(--c-surface-3)] px-2.5 py-1 text-[11px] font-bold text-[var(--c-text-2)]">
-                    {s.age}
-                  </span>
-                </div>
-                <p className="mt-4 text-xs font-bold uppercase tracking-wider text-[var(--c-sky)]">
-                  Stage 0{idx + 1}
-                </p>
-                <h3 className="mt-1 font-display text-xl font-bold text-[var(--c-text)]">
-                  {s.stage}
-                </h3>
-                <p className="mt-1 text-xs font-semibold text-[var(--c-text-3)]">
-                  {s.title}
-                </p>
-                <p className="mt-3 text-xs leading-relaxed text-[var(--c-text-3)]">
-                  {s.body}
-                </p>
-              </div>
-              <div className="mt-5 border-t border-[var(--c-border)] pt-3">
-                <span className="text-[11px] font-semibold text-[var(--c-sky)] group-hover:underline">
-                  Cohort enrollment open →
-                </span>
-              </div>
+              <span
+                className="inline-flex w-fit rounded-full px-2.5 py-1 text-[11px] font-bold"
+                style={{ background: "var(--c-surface-3)", color: "var(--c-text-2)" }}
+              >
+                {s.age}
+              </span>
+              <p className="mt-4 text-xs font-bold uppercase tracking-wider" style={{ color: s.accent }}>
+                Class {idx + 1}
+              </p>
+              <h3 className="mt-1 font-display text-xl font-bold text-[var(--c-text)]">{s.stage}</h3>
+              <p className="mt-1 text-sm font-semibold text-[var(--c-text-3)]">{s.title}</p>
+              <p className="mt-3 text-sm leading-relaxed text-[var(--c-text-3)]">{s.body}</p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* ── 5. How We Teach: STEAM & 21st-Century Methodologies ─────────── */}
-      <section className="py-20" style={{ background: "var(--c-surface-2)" }}>
+      {/* Our Approach to Learning */}
+      <section
+        id="our-approach"
+        className="py-16 sm:py-20"
+        style={{ background: "var(--c-surface-2)" }}
+      >
         <div className="mx-auto max-w-6xl px-6">
-          <div className="mb-12 max-w-2xl">
-            <p className="section-label">Teaching Methodology</p>
+          <div className="mb-10 max-w-2xl">
+            <p className="section-label">How we teach</p>
             <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-[var(--c-text)] sm:text-4xl">
-              Holistic Learning Pillars
+              Our Approach to Learning
             </h2>
-            <p className="mt-3 text-sm text-[var(--c-text-3)]">
-              We combine foundational academic mastery with practical discovery, moral resilience, and creative expression.
+            <p className="mt-3 text-sm text-[var(--c-text-3)] sm:text-base">
+              {settings.educational_approach ||
+                "We combine strong reading, writing and mathematics with practical learning, creative activities and character development — so children understand what they learn and how to use it."}
             </p>
             <div className="section-divider" />
           </div>
 
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {METHODOLOGY_PILLARS.map((p, i) => (
+            {APPROACH.map((p, i) => (
               <div
                 key={p.title}
-                className="rounded-2xl border border-[var(--c-border)] bg-[var(--c-surface)] p-6 shadow-xs transition hover:shadow-sm"
+                className="rounded-2xl border border-[var(--c-border)] bg-[var(--c-surface)] p-6 shadow-xs"
               >
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--c-ice)] text-xs font-bold text-[var(--c-sky)]">
-                  0{i + 1}
+                  {i + 1}
                 </div>
-                <h3 className="mt-3 font-display text-lg font-bold text-[var(--c-text)]">
-                  {p.title}
-                </h3>
-                <p className="mt-2 text-xs leading-relaxed text-[var(--c-text-3)]">
-                  {p.desc}
-                </p>
+                <h3 className="mt-3 font-display text-lg font-bold text-[var(--c-text)]">{p.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-[var(--c-text-3)]">{p.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── 6. Core Values Grid ─────────────────────────────────────────── */}
-      <section className="mx-auto max-w-6xl px-6 py-20">
-        <div className="mb-12 text-center">
-          <p className="section-label">Moral Architecture</p>
+      {/* Our Core Values */}
+      <section id="our-values" className="mx-auto max-w-6xl px-6 py-16 sm:py-20">
+        <div className="mb-10 text-center">
+          <p className="section-label">What we stand for</p>
           <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-[var(--c-text)] sm:text-4xl">
-            Our 8 Core Values
+            Our Core Values
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-sm text-[var(--c-text-3)]">
-            Guiding principles that shape character, conduct, and relationships across every classroom.
+            Six values that shape how we teach, care and grow together.
           </p>
           <div className="section-divider mx-auto" />
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {CORE_VALUES.map((v) => (
             <div
               key={v.name}
-              className="rounded-2xl border border-[var(--c-border)] bg-[var(--c-surface)] p-5 shadow-[var(--shadow-xs)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-md)]"
+              className="rounded-2xl border border-[var(--c-border)] bg-[var(--c-surface)] p-5 shadow-[var(--shadow-xs)]"
             >
-              <div
-                className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl text-lg shadow-xs"
-                style={{ background: v.bg }}
-              >
-                {v.icon}
-              </div>
-              <h3 className="font-display text-base font-bold text-[var(--c-text)]">
-                {v.name}
-              </h3>
-              <p className="mt-1.5 text-xs leading-relaxed text-[var(--c-text-3)]">
-                {v.text}
-              </p>
+              <h3 className="font-display text-base font-bold text-[var(--c-text)]">{v.name}</h3>
+              <p className="mt-1.5 text-sm leading-relaxed text-[var(--c-text-3)]">{v.text}</p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* ── 7. Leadership & Proprietress ────────────────────────────────── */}
-      <section className="pb-24">
+      {/* Meet Our Founder */}
+      <section id="meet-our-founder" className="pb-24">
         <div className="mx-auto max-w-5xl px-4 sm:px-6">
+          <div className="mb-8 text-center">
+            <p className="section-label">Leadership</p>
+            <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-[var(--c-text)] sm:text-4xl">
+              Meet Our Founder
+            </h2>
+            <div className="section-divider mx-auto" />
+          </div>
           <div
             className="relative overflow-hidden rounded-3xl"
             style={{
-              background: "linear-gradient(135deg, var(--c-midnight) 0%, var(--c-navy-light) 55%, var(--c-slate) 100%)",
+              background:
+                "linear-gradient(135deg, var(--c-midnight) 0%, var(--c-navy-light) 55%, var(--c-slate) 100%)",
             }}
           >
             <div className="grid items-center gap-8 p-6 sm:gap-10 sm:p-10 md:grid-cols-[0.9fr_1.1fr] md:p-12">
@@ -438,28 +363,30 @@ export default async function AboutPage() {
                 <div className="relative aspect-[4/5] overflow-hidden rounded-2xl shadow-2xl ring-1 ring-white/15">
                   <img
                     src={SCHOOL_BRAND.proprietor}
-                    alt={`${proprietor}, Proprietor of Splendor Spring School`}
+                    alt={`${founder}, ${founderTitle}`}
                     className="h-full w-full object-cover object-top"
                     decoding="async"
                   />
                 </div>
               </div>
               <div className="text-center md:text-left">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#d42a3a]/15 px-3 py-1 text-xs font-bold uppercase tracking-widest text-[#d42a3a]">
-                  School Leadership
-                </span>
-                <h2 className="mt-4 font-display text-3xl font-bold text-white sm:text-4xl">
-                  {proprietor}
-                </h2>
-                <p className="mt-1 text-sm font-semibold text-[#d42a3a]">
-                  Proprietress &amp; Visionary Founder
-                </p>
+                <h3 className="font-display text-3xl font-bold text-white sm:text-4xl">{founder}</h3>
+                <p className="mt-2 text-sm font-semibold text-[#d42a3a] sm:text-base">{founderTitle}</p>
                 <p className="mt-4 text-sm leading-relaxed text-white/70">
-                  Founded by Mrs. Opeyemi Elebiju Josephine out of an enduring commitment to accessible, world-class education for young minds. Her vision ensures that every child receives genuine care, moral guidance, and foundational academics to thrive anywhere in the world.
+                  Mrs. Opeyemi Elebiju Josephine founded Splendor Spring School so every child can
+                  learn — including families who pay affordable fees, and children who receive free
+                  education when parents genuinely cannot afford school fees. Her work is rooted in
+                  care, moral guidance and solid foundational academics for children in Makoko.
                 </p>
                 <div className="mt-6 flex flex-wrap items-center justify-center gap-4 md:justify-start">
                   <Link href="/contact" className="btn btn-gold btn-sm">
-                    Connect with leadership →
+                    Talk to us →
+                  </Link>
+                  <Link
+                    href="/partnerships"
+                    className="btn rounded-xl border border-white/20 bg-white/10 text-sm text-white hover:bg-white/20"
+                  >
+                    Educational partnerships
                   </Link>
                 </div>
               </div>

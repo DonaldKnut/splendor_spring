@@ -20,7 +20,7 @@ async function main() {
       passwordHash,
       role: "HEAD_ADMIN",
       status: "ACTIVE",
-      mustChangePassword: true,
+      mustChangePassword: false,
       emailVerifiedAt: new Date(),
     },
     update: {
@@ -28,7 +28,7 @@ async function main() {
       passwordHash,
       role: "HEAD_ADMIN",
       status: "ACTIVE",
-      mustChangePassword: true,
+      mustChangePassword: false,
       emailVerifiedAt: new Date(),
     },
   });

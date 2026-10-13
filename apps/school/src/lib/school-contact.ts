@@ -16,5 +16,6 @@ export const SCHOOL_CONTACT = {
   whatsappMessage:
     "Hello Splendor Spring School, I would like to enquire about admissions.",
   facebook: "https://www.facebook.com/share/19hd4TypHj/",
-  proprietor: "Mrs. Opeyemi Elebiju",
+  proprietor: "Mrs. Opeyemi Elebiju Josephine",
+  proprietorTitle: "Founder & Director, Splendor Spring School Ltd.",
 } as const;

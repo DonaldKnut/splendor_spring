@@ -21,8 +21,8 @@ type NavLink = {
 const schoolLinks: NavLink[] = [
   {
     href: "/about",
-    label: "About Splendor",
-    description: "Mission, vision, values & proprietor",
+    label: "About Our School",
+    description: "Mission, classes, values & founder",
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
         <path
@@ -37,7 +37,7 @@ const schoolLinks: NavLink[] = [
   {
     href: "/announcements",
     label: "News & highlights",
-    description: "Session news, impact & partnerships",
+    description: "Session news and school updates",
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
         <path
@@ -54,13 +54,29 @@ const schoolLinks: NavLink[] = [
       </svg>
     ),
   },
+  {
+    href: "/partnerships",
+    label: "Partnerships",
+    description: "Support our work in Makoko",
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+        <path
+          d="M8 12h8M12 8v8"
+          stroke="currentColor"
+          strokeWidth="1.6"
+          strokeLinecap="round"
+        />
+        <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.6" />
+      </svg>
+    ),
+  },
 ];
 
 const connectLinks: NavLink[] = [
   {
     href: "/contact",
     label: "Contact",
-    description: "26 Aganmayo Lane, Makoko",
+    description: "WhatsApp, visit & admissions",
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
         <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" strokeWidth="1.6" />
@@ -84,6 +100,7 @@ const connectLinks: NavLink[] = [
 const mobilePrimary = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
+  { href: "/partnerships", label: "Partnerships" },
   { href: "/announcements", label: "News" },
   { href: "/contact", label: "Contact" },
 ] as const;

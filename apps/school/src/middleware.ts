@@ -12,26 +12,36 @@ export default withAuth(
       return NextResponse.redirect(login);
     }
 
-    if (token.mustChangePassword && path !== "/change-password") {
+    const role = token.role as string;
+
+    // Head admin keeps a permanent password — no forced change redirect.
+    if (
+      role !== "HEAD_ADMIN" &&
+      token.mustChangePassword &&
+      path !== "/change-password"
+    ) {
       return NextResponse.redirect(new URL("/change-password", req.url));
     }
-
-    const role = token.role as string;
 
     if (path.startsWith("/admin")) {
       if (role !== "HEAD_ADMIN" && role !== "SUB_ADMIN" && role !== "TEACHER") {
         return NextResponse.redirect(new URL("/portal", req.url));
       }
-      // Teachers: dashboard, student view, and results only (server actions still enforce permissions)
+      // Teachers land on a dedicated desk; admin students/results remain reachable.
       if (role === "TEACHER") {
+        if (path === "/admin" || path === "/admin/") {
+          return NextResponse.redirect(new URL("/portal/teacher", req.url));
+        }
         const allowed =
-          path === "/admin" ||
-          path.startsWith("/admin/students") ||
-          path.startsWith("/admin/results");
+          path.startsWith("/admin/students") || path.startsWith("/admin/results");
         if (!allowed) {
-          return NextResponse.redirect(new URL("/admin/results", req.url));
+          return NextResponse.redirect(new URL("/portal/teacher", req.url));
         }
       }
+    }
+
+    if (path.startsWith("/portal/teacher") && role !== "TEACHER") {
+      return NextResponse.redirect(new URL("/portal", req.url));
     }
 
     if (path.startsWith("/portal/student") && role !== "STUDENT") {

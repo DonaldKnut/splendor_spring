@@ -47,7 +47,9 @@ export const authOptions: NextAuthOptions = {
           name: user.name,
           role: user.role,
           status: user.status,
-          mustChangePassword: user.mustChangePassword,
+          // Head admin never forced to rotate; other roles keep first-login change.
+          mustChangePassword:
+            user.role === "HEAD_ADMIN" ? false : user.mustChangePassword,
           emailVerified: true,
           permissions: user.permissions.map((p) => p.permission as Permission),
         };

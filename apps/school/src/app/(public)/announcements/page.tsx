@@ -68,7 +68,7 @@ export default async function AnnouncementsPage() {
                 News &amp; Highlights
               </h1>
               <p className="mt-4 max-w-2xl text-base leading-relaxed text-white/70">
-                Keep abreast of term calendars, academic accomplishments, community initiatives, and important parental notices from Splendor Spring School.
+                Term calendars, pupil achievements, community impact — including our commitment to affordable and free education — and important notices for families.
               </p>
             </div>
             <div className="flex justify-center lg:col-span-4">
