@@ -1,0 +1,61 @@
+@import "tailwindcss";
+@source "../../../../packages/ui/src";
+
+:root {
+  --ngo-ink: #1b2430;
+  --ngo-ocean: #1f5c70;
+  --ngo-teal: #2f8f8a;
+  --ngo-coral: #d97845;
+  --ngo-sand: #f3eee6;
+  --ngo-mist: #f5f7f8;
+  --ngo-line: #d7dde2;
+}
+
+@theme inline {
+  --color-ink: var(--ngo-ink);
+  --color-ocean: var(--ngo-ocean);
+  --color-teal: var(--ngo-teal);
+  --color-coral: var(--ngo-coral);
+  --color-sand: var(--ngo-sand);
+  --color-mist: var(--ngo-mist);
+  --color-line: var(--ngo-line);
+  --font-display: "Instrument Serif", Georgia, serif;
+  --font-body: "Sora", "Segoe UI", sans-serif;
+}
+
+html {
+  overflow-x: clip;
+}
+
+body {
+  color: var(--ngo-ink);
+  background: var(--ngo-mist);
+  font-family: var(--font-body);
+  overflow-x: clip;
+  min-height: 100svh;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.wa-float {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 40;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 9999px;
+  background: #25d366;
+  color: white;
+  box-shadow: 0 10px 25px rgba(20, 50, 40, 0.25);
+}
+
+.admin-sidebar {
+  background: linear-gradient(180deg, #1b2430 0%, #1f5c70 70%, #245a62 100%);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+}

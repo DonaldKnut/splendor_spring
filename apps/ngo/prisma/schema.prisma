@@ -1,0 +1,364 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  HEAD_ADMIN
+  SUB_ADMIN
+}
+
+enum AccountStatus {
+  ACTIVE
+  INACTIVE
+  PENDING
+}
+
+enum ContentStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  CANCELLED
+  ABANDONED
+}
+
+enum GrantStatus {
+  DRAFT
+  OPEN
+  CLOSED
+  AWARDED
+  ARCHIVED
+}
+
+enum EventStatus {
+  DRAFT
+  PUBLISHED
+  CANCELLED
+  COMPLETED
+  ARCHIVED
+}
+
+enum PollStatus {
+  DRAFT
+  OPEN
+  CLOSED
+  ARCHIVED
+}
+
+model User {
+  id                 String        @id @default(cuid())
+  email              String        @unique
+  passwordHash       String
+  name               String
+  role               Role
+  status             AccountStatus @default(ACTIVE)
+  mustChangePassword Boolean       @default(false)
+  emailVerifiedAt    DateTime?
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+  lastLoginAt        DateTime?
+
+  permissions         SubAdminPermission[]
+  emailOtps           EmailOtp[]
+  passwordResetTokens PasswordResetToken[]
+  auditLogs           AuditLog[]           @relation("AuditActor")
+  contacts            ContactSubmission[]  @relation("ContactHandler")
+}
+
+model EmailOtp {
+  id         String    @id @default(cuid())
+  userId     String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  purpose    String
+  codeHash   String
+  attempts   Int       @default(0)
+  expiresAt  DateTime
+  consumedAt DateTime?
+  createdAt  DateTime  @default(now())
+
+  @@index([userId, purpose])
+  @@index([expiresAt])
+}
+
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
+}
+
+model SubAdminPermission {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  permission String
+  createdAt  DateTime @default(now())
+
+  @@unique([userId, permission])
+}
+
+model ContentPage {
+  id              String        @id @default(cuid())
+  title           String
+  slug            String        @unique
+  content         String
+  excerpt         String?
+  metaTitle       String?
+  metaDescription String?
+  status          ContentStatus @default(DRAFT)
+  pageType        String        @default("page")
+  featured        Boolean       @default(false)
+  publishedAt     DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+model Programme {
+  id          String        @id @default(cuid())
+  title       String
+  slug        String        @unique
+  summary     String?
+  content     String
+  status      ContentStatus @default(DRAFT)
+  featured    Boolean       @default(false)
+  publishedAt DateTime?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  campaigns Campaign[]
+  grants    Grant[]
+  events    Event[]
+}
+
+model Campaign {
+  id          String        @id @default(cuid())
+  title       String
+  slug        String        @unique
+  summary     String?
+  description String?
+  goalAmount  Float?
+  currency    String        @default("NGN")
+  coverImage  String?
+  featured    Boolean       @default(false)
+  startsAt    DateTime?
+  endsAt      DateTime?
+  status      ContentStatus @default(DRAFT)
+  programmeId String?
+  programme   Programme?    @relation(fields: [programmeId], references: [id])
+  eventId     String?
+  event       Event?        @relation(fields: [eventId], references: [id])
+  publishedAt DateTime?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  donations Donation[]
+
+  @@index([status, featured])
+  @@index([eventId])
+}
+
+model Grant {
+  id            String      @id @default(cuid())
+  title         String
+  slug          String      @unique
+  summary       String?
+  description   String
+  amountMin     Float?
+  amountMax     Float?
+  currency      String      @default("NGN")
+  category      String?
+  eligibility   String?
+  applicationUrl String?
+  deadline      DateTime?
+  featured      Boolean     @default(false)
+  status        GrantStatus @default(DRAFT)
+  programmeId   String?
+  programme     Programme?  @relation(fields: [programmeId], references: [id])
+  publishedAt   DateTime?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@index([status, featured])
+  @@index([deadline])
+}
+
+model Event {
+  id          String      @id @default(cuid())
+  title       String
+  slug        String      @unique
+  summary     String?
+  description String
+  venue       String?
+  location    String?
+  coverImage  String?
+  startsAt    DateTime
+  endsAt      DateTime?
+  capacity    Int?
+  featured    Boolean     @default(false)
+  status      EventStatus @default(DRAFT)
+  programmeId String?
+  programme   Programme?  @relation(fields: [programmeId], references: [id])
+  publishedAt DateTime?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  campaigns Campaign[]
+  polls     Poll[]
+
+  @@index([status, startsAt])
+  @@index([featured])
+}
+
+model Poll {
+  id          String     @id @default(cuid())
+  title       String
+  slug        String     @unique
+  description String?
+  status      PollStatus @default(DRAFT)
+  allowMultiple Boolean  @default(false)
+  startsAt    DateTime?
+  endsAt      DateTime?
+  eventId     String?
+  event       Event?     @relation(fields: [eventId], references: [id])
+  publishedAt DateTime?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  options PollOption[]
+  votes   PollVote[]
+
+  @@index([status])
+  @@index([eventId])
+}
+
+model PollOption {
+  id        String   @id @default(cuid())
+  pollId    String
+  poll      Poll     @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  label     String
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+
+  votes PollVote[]
+
+  @@index([pollId, sortOrder])
+}
+
+model PollVote {
+  id        String     @id @default(cuid())
+  pollId    String
+  poll      Poll       @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  optionId  String
+  option    PollOption @relation(fields: [optionId], references: [id], onDelete: Cascade)
+  voterKey  String
+  createdAt DateTime   @default(now())
+
+  @@unique([pollId, voterKey, optionId])
+  @@index([pollId])
+  @@index([optionId])
+}
+
+model Donation {
+  id                String        @id @default(cuid())
+  reference         String        @unique
+  provider          String        @default("paystack")
+  amount            Float
+  currency          String        @default("NGN")
+  status            PaymentStatus @default(PENDING)
+  frequency         String        @default("one_time")
+  recurring         Boolean       @default(false)
+  planCode          String?
+  donorName         String?
+  donorEmail        String
+  donorPhone        String?
+  anonymous         Boolean       @default(false)
+  message           String?
+  campaignId        String?
+  campaign          Campaign?     @relation(fields: [campaignId], references: [id])
+  providerReference String?
+  providerPayload   String?
+  verifiedAt        DateTime?
+  failureReason     String?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  events PaymentEvent[]
+
+  @@index([status, createdAt])
+  @@index([campaignId])
+  @@index([donorEmail])
+  @@index([frequency])
+}
+
+model PaymentEvent {
+  id         String    @id @default(cuid())
+  donationId String?
+  donation   Donation? @relation(fields: [donationId], references: [id])
+  eventKey   String    @unique
+  eventType  String
+  payload    String
+  createdAt  DateTime  @default(now())
+}
+
+model ContactSubmission {
+  id          String   @id @default(cuid())
+  name        String
+  email       String
+  phone       String?
+  subject     String
+  message     String
+  status      String   @default("NEW")
+  handledById String?
+  handledBy   User?    @relation("ContactHandler", fields: [handledById], references: [id])
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  source    String   @default("footer")
+  status    String   @default("ACTIVE")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status, createdAt])
+}
+
+model Setting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  updatedAt DateTime @updatedAt
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  actorId    String?
+  actor      User?    @relation("AuditActor", fields: [actorId], references: [id])
+  action     String
+  entityType String
+  entityId   String?
+  metadata   String?
+  createdAt  DateTime @default(now())
+
+  @@index([createdAt])
+}
