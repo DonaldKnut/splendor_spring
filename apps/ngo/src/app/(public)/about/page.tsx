@@ -1,14 +1,19 @@
 import { db } from "@/lib/db";
 import { getSettings } from "@/lib/settings";
 import { PageHero } from "@/components/page-hero";
+import { safeDbQuery } from "@/lib/safe-db";
 
 export const metadata = { title: "About" };
 
 export default async function AboutPage() {
   const settings = await getSettings(["org_name", "mission", "vision", "values", "org_intro"]);
-  const page = await db.contentPage.findFirst({
-    where: { slug: "about", status: "PUBLISHED" },
-  });
+  const page = await safeDbQuery(
+    () =>
+      db.contentPage.findFirst({
+        where: { slug: "about", status: "PUBLISHED" },
+      }),
+    null,
+  );
 
   return (
     <>

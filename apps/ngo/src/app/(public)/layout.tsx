@@ -1,6 +1,8 @@
 import { AnimatedMain, SiteFooter, SiteHeader, WhatsAppButton } from "@/components/site-chrome";
 import { getSettings } from "@/lib/settings";
 
+export const dynamic = "force-dynamic";
+
 export default async function PublicLayout({ children }: { children: React.ReactNode }) {
   const settings = await getSettings([
     "org_name",

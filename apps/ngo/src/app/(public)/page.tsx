@@ -5,23 +5,30 @@ import { getSettings } from "@/lib/settings";
 
 export default async function HomePage() {
   const settings = await getSettings();
-  const [programmes, campaigns, confirmedTotal] = await Promise.all([
-    db.programme.findMany({
-      where: { status: "PUBLISHED" },
-      orderBy: { publishedAt: "desc" },
-      take: 3,
-    }),
-    db.campaign.findMany({
-      where: { status: "PUBLISHED" },
-      orderBy: { publishedAt: "desc" },
-      take: 3,
-    }),
-    db.donation.aggregate({
-      where: { status: "SUCCESS" },
-      _sum: { amount: true },
-      _count: true,
-    }),
-  ]);
+  let programmes: Awaited<ReturnType<typeof db.programme.findMany>> = [];
+  let campaigns: Awaited<ReturnType<typeof db.campaign.findMany>> = [];
+  let confirmedTotal = { _count: 0, _sum: { amount: null as number | null } };
+  try {
+    [programmes, campaigns, confirmedTotal] = await Promise.all([
+      db.programme.findMany({
+        where: { status: "PUBLISHED" },
+        orderBy: { publishedAt: "desc" },
+        take: 3,
+      }),
+      db.campaign.findMany({
+        where: { status: "PUBLISHED" },
+        orderBy: { publishedAt: "desc" },
+        take: 3,
+      }),
+      db.donation.aggregate({
+        where: { status: "SUCCESS" },
+        _sum: { amount: true },
+        _count: true,
+      }),
+    ]);
+  } catch {
+    // Build / offline DB — render empty listings with brand defaults.
+  }
 
   const slides = [
     {

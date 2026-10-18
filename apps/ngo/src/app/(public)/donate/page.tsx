@@ -3,6 +3,7 @@ import { NGO_HERO_GLOW, NGO_HERO_WASH } from "@splendor/ui/media";
 import { db } from "@/lib/db";
 import { DonationForm } from "@/components/forms";
 import { getConfiguredProviders, getPaymentEnv } from "@/lib/payments";
+import { safeDbQuery } from "@/lib/safe-db";
 
 export const metadata = { title: "Donate" };
 
@@ -12,10 +13,14 @@ export default async function DonatePage({
   searchParams: Promise<{ campaign?: string }>;
 }) {
   const sp = await searchParams;
-  const campaigns = await db.campaign.findMany({
-    where: { status: "PUBLISHED" },
-    orderBy: { publishedAt: "desc" },
-  });
+  const campaigns = await safeDbQuery(
+    () =>
+      db.campaign.findMany({
+        where: { status: "PUBLISHED" },
+        orderBy: { publishedAt: "desc" },
+      }),
+    [],
+  );
   const env = getPaymentEnv();
   const providers = getConfiguredProviders();
   const defaultCampaignId = campaigns.some((c) => c.id === sp.campaign)

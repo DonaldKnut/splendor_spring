@@ -1,14 +1,19 @@
 import Link from "next/link";
 import { Reveal } from "@splendor/ui";
 import { db } from "@/lib/db";
+import { safeDbQuery } from "@/lib/safe-db";
 
 export const metadata = { title: "Grants" };
 
 export default async function GrantsPage() {
-  const grants = await db.grant.findMany({
-    where: { status: { in: ["OPEN", "CLOSED"] } },
-    orderBy: [{ status: "asc" }, { deadline: "asc" }],
-  });
+  const grants = await safeDbQuery(
+    () =>
+      db.grant.findMany({
+        where: { status: { in: ["OPEN", "CLOSED"] } },
+        orderBy: [{ status: "asc" }, { deadline: "asc" }],
+      }),
+    [],
+  );
 
   return (
     <div>

@@ -1,15 +1,20 @@
 import Link from "next/link";
 import { Reveal } from "@splendor/ui";
 import { db } from "@/lib/db";
+import { safeDbQuery } from "@/lib/safe-db";
 
 export const metadata = { title: "Polls" };
 
 export default async function PollsPage() {
-  const polls = await db.poll.findMany({
-    where: { status: { in: ["OPEN", "CLOSED"] } },
-    include: { _count: { select: { votes: true } }, event: { select: { title: true } } },
-    orderBy: { updatedAt: "desc" },
-  });
+  const polls = await safeDbQuery(
+    () =>
+      db.poll.findMany({
+        where: { status: { in: ["OPEN", "CLOSED"] } },
+        include: { _count: { select: { votes: true } }, event: { select: { title: true } } },
+        orderBy: { updatedAt: "desc" },
+      }),
+    [],
+  );
 
   return (
     <div>

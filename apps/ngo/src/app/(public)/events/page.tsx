@@ -1,20 +1,25 @@
 import Link from "next/link";
 import { Reveal } from "@splendor/ui";
 import { db } from "@/lib/db";
+import { safeDbQuery } from "@/lib/safe-db";
 
 export const metadata = { title: "Events" };
 
 export default async function EventsPage() {
-  const events = await db.event.findMany({
-    where: { status: { in: ["PUBLISHED", "COMPLETED"] } },
-    include: {
-      campaigns: {
-        where: { status: "PUBLISHED" },
-        select: { id: true, title: true, slug: true },
-      },
-    },
-    orderBy: { startsAt: "asc" },
-  });
+  const events = await safeDbQuery(
+    () =>
+      db.event.findMany({
+        where: { status: { in: ["PUBLISHED", "COMPLETED"] } },
+        include: {
+          campaigns: {
+            where: { status: "PUBLISHED" },
+            select: { id: true, title: true, slug: true },
+          },
+        },
+        orderBy: { startsAt: "asc" },
+      }),
+    [],
+  );
 
   return (
     <div>

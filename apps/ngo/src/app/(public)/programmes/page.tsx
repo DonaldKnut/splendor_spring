@@ -2,14 +2,19 @@ import Link from "next/link";
 import { db } from "@/lib/db";
 import { EmptyState } from "@/components/ui";
 import { PageHero } from "@/components/page-hero";
+import { safeDbQuery } from "@/lib/safe-db";
 
 export const metadata = { title: "Programmes" };
 
 export default async function ProgrammesPage() {
-  const items = await db.programme.findMany({
-    where: { status: "PUBLISHED" },
-    orderBy: { publishedAt: "desc" },
-  });
+  const items = await safeDbQuery(
+    () =>
+      db.programme.findMany({
+        where: { status: "PUBLISHED" },
+        orderBy: { publishedAt: "desc" },
+      }),
+    [],
+  );
 
   return (
     <>

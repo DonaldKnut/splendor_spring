@@ -3,6 +3,9 @@ import { Instrument_Serif, Sora } from "next/font/google";
 import "./globals.css";
 import { getSettings } from "@/lib/settings";
 
+/** Keep root metadata/layout from requiring a live DB during `next build`. */
+export const dynamic = "force-dynamic";
+
 const display = Instrument_Serif({
   subsets: ["latin"],
   weight: ["400"],
