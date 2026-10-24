@@ -40,23 +40,23 @@ export function SiteFooter({
         }}
       />
 
-      <div className="relative z-10 mx-auto max-w-6xl px-5 sm:px-6">
-        <div className="grid gap-10 border-b border-white/[0.08] py-14 lg:grid-cols-[1.15fr_0.85fr] lg:items-end lg:gap-16 lg:py-16">
+      <div className="relative z-10 mx-auto max-w-6xl px-3.5 sm:px-6">
+        <div className="grid gap-10 border-b border-white/[0.08] py-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-end lg:gap-16 lg:py-16">
           <div>
             <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#e8915f]/90">
               Community
             </p>
-            <h2 className="mt-3 font-display text-3xl leading-tight tracking-tight text-white sm:text-4xl">
-              Stories of impact, in your inbox
+            <h2 className="mt-3 font-display text-2xl leading-tight tracking-tight text-white sm:text-4xl">
+              Stories of verified impact, in your inbox
             </h2>
-            <p className="mt-3 max-w-md text-sm leading-relaxed text-white/55">
-              Occasional updates on programmes, campaigns, and how your support creates change.
+            <p className="mt-3 max-w-md text-xs leading-relaxed text-white/60 sm:text-sm">
+              Occasional updates on community health outreaches, children's scholarships, and how your support creates durable change.
             </p>
           </div>
           <FooterSubscribe />
         </div>
 
-        <div className="grid gap-12 py-14 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8">
+        <div className="grid gap-12 py-12 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-5">
             <Link href="/" className="inline-flex items-center gap-3">
               <span
@@ -70,12 +70,11 @@ export function SiteFooter({
               </span>
               <span className="font-display text-xl tracking-tight">{orgName}</span>
             </Link>
-            <p className="mt-5 max-w-sm text-sm leading-relaxed text-white/50">
-              A premium nonprofit experience with configurable content — publish only verified
-              organisational information.
+            <p className="mt-4 max-w-sm text-xs leading-relaxed text-white/60 sm:text-sm">
+              Dedicated to empowering children and vulnerable families through education, clean water, and community healthcare with verified transparency.
             </p>
-            <div className="mt-6 space-y-2 text-sm text-white/45">
-              {address ? <p>{address}</p> : <p>Address pending in settings</p>}
+            <div className="mt-5 space-y-1.5 text-xs text-white/50 sm:text-sm">
+              {address ? <p>{address}</p> : <p>Lagos, Nigeria • Serving communities across West Africa</p>}
               {phone ? <p>{phone}</p> : null}
               {email ? (
                 <a href={`mailto:${email}`} className="transition hover:text-white">

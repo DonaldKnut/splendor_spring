@@ -322,7 +322,7 @@ export function NgoHeader({ orgName }: { orgName: string }) {
           </div>
         ) : null}
 
-        <div className="relative mx-auto flex h-[4.5rem] max-w-6xl items-center justify-between gap-4 px-5 sm:px-6">
+        <div className="relative mx-auto flex h-[4.5rem] max-w-6xl items-center justify-between gap-3 px-3.5 sm:px-6">
           <Link href="/" className="group flex min-w-0 items-center gap-3 text-white">
             <span
               className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl font-display text-base font-bold text-white transition group-hover:scale-[1.03]"
